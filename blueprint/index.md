@@ -8,6 +8,13 @@ category: 3
 summary: |
   This Genesys Cloud Developer Blueprint provides instructions to configure a middleware to allow a Genesys Cloud Agent to send and receive messages from a Vonage Virtual Number (LVN), using the Open Messaging Platform and Vonage Messages API.
 ---
+:::{"alert":"primary","title":"About Genesys Cloud Blueprints","autoCollapse":false} 
+Genesys Cloud blueprints were built to help you jump-start building an application or integrating with a third-party partner. 
+Blueprints are meant to outline how to build and deploy your solutions, not a production-ready turn-key solution.
+ 
+For more details on Genesys Cloud blueprint support and practices 
+please see our Genesys Cloud blueprint [FAQ](https://developer.genesys.cloud/blueprints/faq)sheet.
+:::
 
 ![Flowchart for Open Messaging to Vonage Messages API](flowchart.png 'Flowchart for Open Messaging to Vonage Messages API')
 
