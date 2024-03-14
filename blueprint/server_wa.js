@@ -1,7 +1,8 @@
 require('dotenv').config();
+const serverless = require("serverless-http");
 var express = require('express');
 var app = express();
-var port = 3001;
+var port = 3000;
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 app.use(logger('dev'));
@@ -131,26 +132,13 @@ fetch(`https://login.${environment}/oauth/token`, {
 
 // SEND SMS TO VONAGE
 const sendToVonage = async (data) => {
-  // console.log('sendToVonage DATA: ', data);
-  //* await vonage.channel.send(
-    //*{ type: 'sms', number: data.channel.to.id }, // TO_NUMBER
-    //*{ type: 'sms', number: VIRTUAL_NUMBER }, // FROM_NUMBER
-    //*{
-    //*  content: {
-    //*    type: 'text',
-    //*    text: data.text,
-    //*  },
-    //*},
-    //*(err, data) => {
-    //*  if (err) {
-    //*    console.error(err);
-    //*  } else {
-    //*    console.log(
-    //*      `\n✅ Vonage successfully received the message, UUID: ${data.message_uuid}`
-    //*    );
-    //*  }
-   //* }
-  //*);
+  console.log('sendToVonage DATA: ', data);
+
+  if (data.channel.to.id === messageDeploymentId) {
+    console.log('Exiting sendToVonage function because this is an acknowledgement from Genesys');
+    return; // Exit from the function
+  }
+
   await vonage.messages.send(
     new WhatsAppText({
       text: data.text,
@@ -160,7 +148,6 @@ const sendToVonage = async (data) => {
   )
     .then(resp => console.log(resp.messageUUID))
     .catch(err => console.error(err));
-  
 };
 
 const sendToVonage_test = async (data) => {
@@ -229,6 +216,7 @@ app.post('/messageToGenesys', (req, res) => {
  * Implement the code to send a message to Genesys Open Messaging API
  */
 function sendToGenesys(data) {
+  console.log('Data Received:', data); // Print received data
   if (data.message === '') {
     console.log('\nNo message to send');
     return;
@@ -296,6 +284,17 @@ app.post('/webhooks/status', (req, res) => {
   res.status(200).end();
 });
 
-app.listen(port, () => {
-  console.log(`🌏 Server is listening`);
+app.get('/', (req, res) => {
+    res.send(`Server is running`);
+    // console.log(req.body);
+    res.status(200).end();
 });
+
+// to run and test locally
+if (process.env.DEVELOPMENT == 'prod') {
+  module.exports.handler = serverless(app);
+} else {
+  app.listen(PORT, () => {
+    console.log(`🌏 Server is running on PORT: ${PORT}`);
+  });
+}

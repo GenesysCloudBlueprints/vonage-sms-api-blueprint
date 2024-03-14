@@ -4,7 +4,7 @@
   "description": "Express Server to handle back and forth communication between Genesys and Vonage, using Genesys Open Messaging and Vonage Messages API",
   "main": "main.js",
   "dependencies": {
-    "@vonage/server-sdk": "^2.10.7-beta-2",
+    "@vonage/server-sdk": "^3.13.1",
     "cookie-parser": "^1.4.5",
     "debug": "^4.3.2",
     "dotenv": "^10.0.0",
@@ -14,9 +14,9 @@
     "node-fetch": "^2.6.1",
     "nunjucks": "^3.2.3",
     "purecloud-platform-client-v2": "^116.0.0",
+    "serverless-http": "^3.2.0",
     "uuid": "^8.3.2"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
